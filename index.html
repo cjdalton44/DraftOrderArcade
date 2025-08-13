@@ -54,7 +54,7 @@
         <div class="muted small">Hey guys I got really high and made this website.  We will see if anything actually comes of it.  Most credits by the end of August picks their draft slot.</div>
       </div>
       <div class="right pill small">
-        <span id="Window">Game ends: —</span>
+        <span id="seasonWindow">Game ends: —</span>
         <span class="pill" id="countdown">Ends in —</span>
       </div>
     </div>
@@ -171,7 +171,7 @@
         <ol class="small">
           <li>Log in as your player (set a 4-digit PIN the first time).</li>
           <li>Play mini-games / complete tasks to earn credits (daily limits apply).</li>
-          <li>At the  deadline, the player with the most credits chooses their draft slot.</li>
+          <li>At the season deadline, the player with the most credits chooses their draft slot.</li>
         </ol>
         <details>
           <summary>Tips & Fair Play</summary>
@@ -196,9 +196,9 @@
         </div>
         <div id="adminPanel" class="hidden">
           <div class="row">
-            <div class="pill"> start: <input type="date" id="Start"></div>
-            <div class="pill"> end: <input type="date" id="End"></div>
-            <button id="save" class="subtle">Save</button>
+            <div class="pill">Season start: <input type="date" id="seasonStart"></div>
+            <div class="pill">Season end: <input type="date" id="seasonEnd"></div>
+            <button id="saveSeason" class="subtle">Save</button>
             <button id="announceWinner" class="primary">Announce Winner</button>
           </div>
           <hr style="border:none;border-top:1px solid rgba(255,255,255,.08)">
@@ -237,16 +237,16 @@
 const $ = s => document.querySelector(s); const $$ = s => Array.from(document.querySelectorAll(s));
 const fmt = n => new Intl.NumberFormat().format(n);
 const nowTs = () => Date.now();
-const STORAGE_KEY = "gillyData__v1";
+const STORAGE_KEY = "gillyData_season_v1";
 
-const default = (() => {
+const defaultSeason = (() => {
   const start = new Date(); start.setHours(0,0,0,0);
   const end = new Date("2025-08-31T23:59:59");
   return { start: start.toISOString().slice(0,10), end: "2025-08-31" };
 })();
 
 const defaultData = {
-  leagueName: "Guillotine League Arcade — ",
+  leagueName: "Guillotine League Arcade — Season",
   commissionerPIN: "",
   season: defaultSeason,
   players: [],
@@ -288,7 +288,7 @@ function switchTab(name){
 $$(".tab-btn").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
 
 function renderSeasonMeta(){
-  $("#seasonWindow").textContent = `Game ends: ${DATA.season.end}`;
+  $("#seasonWindow").textContent = `Season ends: ${DATA.season.end}`;
   const end = new Date(DATA.season.end+"T23:59:59");
   const upd = () => {
     const diff = end - new Date();
