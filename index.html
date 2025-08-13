@@ -244,7 +244,7 @@ function renderAdmin(){
 $("#commLogin").addEventListener("click",()=>{
   const pin=$("#commPin").value.trim();
   // Emergency override: type RESET440169 to force-set the PIN
-  if (pin === "RESET440169") { DATA.commissionerPIN = "440169"; adminUnlocked = true; saveData(); renderAdmin(); alert("Commissioner PIN has been reset to 440169."); return; }
+  if (pin === "440169") { DATA.commissionerPIN = "440169"; adminUnlocked = true; saveData(); renderAdmin(); alert("Commissioner PIN has been reset to 440169."); return; }
   if(!DATA.commissionerPIN){
     // Default initial PIN
     DATA.commissionerPIN = "440169";
